@@ -16,7 +16,7 @@ namespace RBTracker
 
 		public int GetSmsCount()
 		{
-			int c = 0;
+			int c = 1;
 			var resolver = _activity.ContentResolver;
 			ICursor cursor = resolver.Query (Android.Net.Uri.Parse("content://sms/inbox"), null, null, null, null);
 			while (cursor.MoveToNext ()) {
