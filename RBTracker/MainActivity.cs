@@ -30,7 +30,7 @@ namespace RBTracker
 			button.Click += delegate {
 				//button.Text = string.Format ("{0} clicks!", count++);
 				TextView textView = FindViewById<TextView> (Resource.Id.textView1);
-				textView.Text = smsReader.GetSmsCount().ToString();
+				textView.Text = smsReader.ReadBalanceData();
 			};
 		}
 	}

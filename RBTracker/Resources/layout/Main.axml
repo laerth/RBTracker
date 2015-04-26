@@ -6,11 +6,12 @@
     <Button
         android:id="@+id/myButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
+        android:layout_height="115.0dp"
+        android:text="@string/hello"
+        android:layout_marginBottom="72.6dp" />
     <TextView
         android:text="no text"
-        android:layout_width="match_parent"
-        android:layout_height="105.8dp"
+        android:layout_width="280.3dp"
+        android:layout_height="131.1dp"
         android:id="@+id/textView1" />
 </LinearLayout>
