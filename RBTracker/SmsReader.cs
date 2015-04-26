@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Android.App;
@@ -10,7 +11,6 @@ namespace RBTracker
 	public class SmsReader
 	{
 		const string RB_ADDRESS = "Rosbank";
-		const string RB_MSG_START = "Karta **0489";
 		const string RB_MSG_ANCHOR = "Ostatok: ";
 		const int RB_MSG_ANCHOR_L = 9;
 
@@ -55,32 +55,59 @@ namespace RBTracker
 			months [month] += value;
 		}
 
-		public string ReadBalanceData()
+		public void ReadBalanceData()
 		{
 			var resolver = _activity.ContentResolver;
 			ICursor cursor = resolver.Query (Android.Net.Uri.Parse("content://sms/inbox"), null, null, null, null);
 			if (cursor.MoveToFirst ())
 			{
+				Dictionary<long, int> rawBalances = new Dictionary<long, int> ();
 				do {
 					string address = cursor.GetString(2);
 					if (address == RB_ADDRESS)
 					{
 						string body = cursor.GetString(11);
-						if (body.StartsWith(RB_MSG_START))
+						int idx = body.IndexOf(RB_MSG_ANCHOR);
+						if (idx != -1)
 						{
-							int idx = body.IndexOf(RB_MSG_ANCHOR);
-							if (idx != -1)
+							DateTime dt = parseDate(body);
+							int v = parseBalance(body, idx);
+							if (rawBalances.ContainsKey(dt.Ticks))
 							{
-								DateTime dt = parseDate(body);
-								int v = parseBalance(body, idx);
-								this.putValue(dt.Year, dt.Month, v);
+								rawBalances[dt.Ticks] = v;
+							}
+							else
+							{
+								rawBalances.Add(dt.Ticks, v);
 							}
 						}
 					}
 				} while(cursor.MoveToNext ());
+					
+				var sorted = rawBalances.OrderBy (key => key.Key).ToDictionary (ki => ki.Key, vi => vi.Value);
+				int prev = sorted.First().Value;
+				foreach (var key in sorted.Keys)
+				{
+					DateTime dt = new DateTime (key);
+					int cur = sorted [key] - prev;
+					this.putValue (dt.Year, dt.Month, cur);
+					prev = sorted [key];
+				}
 			}
-				
-			return "0";
+		}
+
+		public string[] GetBalancesArray()
+		{
+			List<string> result = new List<string> ();
+			foreach (var year in balances.Keys) {
+				Dictionary<int, int> months = balances [year];
+				foreach (var month in months.Keys) {
+					var cur = month.ToString () + " - " + year.ToString () + " > " + months [month].ToString ();
+					result.Add (cur);
+				}
+			}
+
+			return result.ToArray<string> ();
 		}
 	}
 }

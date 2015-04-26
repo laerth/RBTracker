@@ -28,9 +28,11 @@ namespace RBTracker
 			Button button = FindViewById<Button> (Resource.Id.myButton);
 			
 			button.Click += delegate {
-				//button.Text = string.Format ("{0} clicks!", count++);
-				TextView textView = FindViewById<TextView> (Resource.Id.textView1);
-				textView.Text = smsReader.ReadBalanceData();
+				ListView monthView = FindViewById<ListView> (Resource.Id.monthsList);
+				smsReader.ReadBalanceData();
+
+				var adapter = new ArrayAdapter<string>(this, Resource.Layout.AdapterLayout, smsReader.GetBalancesArray());
+				monthView.Adapter = adapter;
 			};
 		}
 	}

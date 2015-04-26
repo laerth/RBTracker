@@ -60,11 +60,11 @@ namespace RBTracker
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050001
+			public const int monthsList = 2131034113;
+			
 			// aapt resource value: 0x7f050000
 			public const int myButton = 2131034112;
-			
-			// aapt resource value: 0x7f050001
-			public const int textView1 = 2131034113;
 			
 			static Id()
 			{
@@ -80,7 +80,10 @@ namespace RBTracker
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int AdapterLayout = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int Main = 2130903041;
 			
 			static Layout()
 			{
