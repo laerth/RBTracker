@@ -74,7 +74,7 @@ namespace RBTracker
 							int v = parseBalance(body, idx);
 							if (rawBalances.ContainsKey(dt.Ticks))
 							{
-								rawBalances[dt.Ticks] = v;
+								rawBalances[dt.Ticks] += v;
 							}
 							else
 							{
