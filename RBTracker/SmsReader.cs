@@ -11,8 +11,8 @@ namespace RBTracker
 	public class SmsReader
 	{
 		const string RB_ADDRESS = "Rosbank";
-		const string RB_MSG_ANCHOR = "Ostatok: ";
-		const int RB_MSG_ANCHOR_L = 9;
+		const string RB_MSG_ANCHOR = "Izmenenie: +";
+		const int RB_MSG_ANCHOR_L = 12;
 
 		private Dictionary<int, Dictionary<int, int>> balances = new Dictionary<int, Dictionary<int, int>> ();
 
@@ -85,13 +85,13 @@ namespace RBTracker
 				} while(cursor.MoveToNext ());
 					
 				var sorted = rawBalances.OrderBy (key => key.Key).ToDictionary (ki => ki.Key, vi => vi.Value);
-				int prev = sorted.First().Value;
+				//int prev = sorted.First().Value;
 				foreach (var key in sorted.Keys)
 				{
 					DateTime dt = new DateTime (key);
-					int cur = sorted [key] - prev;
-					this.putValue (dt.Year, dt.Month, cur);
-					prev = sorted [key];
+					//int cur = sorted [key] - prev;
+					this.putValue (dt.Year, dt.Month, sorted [key]);
+					//prev = sorted [key];
 				}
 			}
 		}

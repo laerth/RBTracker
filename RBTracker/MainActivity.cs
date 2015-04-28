@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace RBTracker
 {
-	[Activity (Label = "RBTracker", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "RBTracker", MainLauncher = true, Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light")]
 	public class MainActivity : Activity
 	{
 		SmsReader smsReader;
